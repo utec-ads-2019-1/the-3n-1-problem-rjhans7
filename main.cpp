@@ -4,19 +4,19 @@ using namespace std;
 
 class TresN{
 private:
-    int inicio, fin, contador=0;
-    vector <int> *contadores;
+    int inicio, fin, lenCiclo=0;
+    vector <int> *lenCiclos;
 
 public:
     TresN (int i, int f){
         inicio = i;
         fin = f;
-        contadores = new vector <int>();
+        lenCiclos = new vector <int>();
     }
     void cycles_length (int n){
-        contador = 0;
+        lenCiclo = 0;
         while (n > 0) {
-            contador += 1;
+            lenCiclo += 1;
             if ( n == 1)
                 break;
             else if (n % 2 != 0)
@@ -24,18 +24,22 @@ public:
             else
                 n = n / 2;
         }
-        contadores->push_back(contador);
+        lenCiclos->push_back(lenCiclo);
     }
     void iterador(int i, int f){
-        for (i; i<f; i++){
-            cycles_length(i);
-        }
+        if (i>f){
+            for (f; f<=i; f++)
+                cycles_length(f);
+        }else {
+            for (i; i<=f; i++)
+                cycles_length(i);
+    }
     }
     int get_max(){
         int max = 0;
-        for(auto cont:*contadores)
-            if (cont > max)
-                max = cont;
+        for(auto len:*lenCiclos)
+            if (len > max)
+                max = len;
         return max;
     }
     void ejecutar(){
@@ -49,10 +53,12 @@ public:
 
 
 int main() {
-    int inicio, fin;
-    cin >> inicio >> fin;
-    TresN algoritmo = TresN(inicio,fin);
-    algoritmo.ejecutar();
 
+    int inicio, fin;
+
+    while ( cin >>inicio>>fin ) {
+        TresN algoritmo = TresN(inicio, fin);
+        algoritmo.ejecutar();
+    }
     return 0;
 }
